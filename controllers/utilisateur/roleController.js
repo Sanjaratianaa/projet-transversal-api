@@ -1,82 +1,120 @@
 const Role = require('../../models/utilisateur/Role');
 
-exports.createRole = async (req, res) => {
-    try {
-        const role = new Role(req.body);
-        await role.save();
-        res.status(201).json(role);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
+const RoleController = {
+    createRole: async (req, res) => {
+        try {
+            const { libelle, Etat, ...rest } = req.body;
 
-exports.getAllRoles = async (req, res) => {
-    try {
-        const roles = await Role.find();
-        res.json(roles);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+            const existingRole = await Role.findOne({
+                libelle: { $regex: new RegExp(libelle, 'i') }
+            });
 
-exports.getRoleById = async (req, res) => {
-    try {
-        const role = await Role.findById(req.params.id);
-        if (!role) {
-            return res.status(404).json({ message: 'Role not found' });
+            if (existingRole) {
+                return res.status(400).json({ message: 'Role already exists' });
+            }
+
+            const role = new Role({
+                libelle,
+                Etat: Etat || 'Actif',
+                ...rest
+            });
+            
+            await role.save();
+            res.status(201).json(role);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
         }
-        res.json(role);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+    },
 
-exports.getRoleBy = async (req, res) => {
-    try {
-      const libelle = req.body.libelle;
-
-      const role = await Role.findOne({ libelle: { $regex: new RegExp(libelle, 'i') } });
-  
-      if (!role) {
-        res.status(404).json({ message: 'Role not found' });
-        return;
-      }
-  
-      res.status(200).json(role);
-    } catch (error) {
-      console.error("Error in getRoleBy:", error);
-      res.status(500).json({ message: error.message });
-    }
-};
-
-exports.updateRole = async (req, res) => {
-    try {
-        const role = await Role.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!role) {
-            return res.status(404).json({ message: 'Role not found' });
+    getAllRoles: async (req, res) => {
+        try {
+            const roles = await Role.find();
+            res.json(roles);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
-        res.json(role);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
+    },
 
-exports.deleteRole = async (req, res) => {
-    try {
-        const role = await Role.findByIdAndUpdate(
-            req.params.id,
-            {
-                etat: 'Inactive'
-            },
-            { new: true }
-        );
-
-        if (!role) {
-            return res.status(404).json({ message: 'Role not found' });
+    getRoleById: async (req, res) => {
+        try {
+            const role = await Role.findById(req.params.id);
+            if (!role) {
+                return res.status(404).json({ message: 'Role not found' });
+            }
+            res.json(role);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
+    },
 
-        res.json(role);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    getRoleBy: async (req, res) => {
+        try {
+            const { libelle } = req.body;
+
+            const role = await Role.findOne({ 
+                libelle: { $regex: new RegExp(libelle, 'i') } 
+            });
+
+            if (!role) {
+                return res.status(404).json({ message: 'Role not found' });
+            }
+
+            res.status(200).json(role);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    getRoleByLibelleDirect: async (libelle) => {
+        try {
+            const role = await Role.findOne({ 
+                libelle: { $regex: new RegExp(libelle, 'i') } 
+            });
+            
+            if (!role) {
+                throw new Error('Role not found');
+            }
+            
+            return role;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    updateRole: async (req, res) => {
+        try {
+            const role = await Role.findByIdAndUpdate(
+                req.params.id,
+                req.body, 
+                { new: true, runValidators: true }
+            );
+            
+            if (!role) {
+                return res.status(404).json({ message: 'Role not found' });
+            }
+            res.json(role);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    },
+
+    deleteRole: async (req, res) => {
+        try {
+            const role = await Role.findByIdAndUpdate(
+                req.params.id,
+                { Etat: 'Inactive' },
+                { new: true }
+            );
+
+            if (!role) {
+                return res.status(404).json({ message: 'Role not found' });
+            }
+
+            res.json(role);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     }
 };
+
+module.exports = RoleController;

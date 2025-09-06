@@ -40,43 +40,24 @@ const UtilisateurSchema = new mongoose.Schema({
 
 UtilisateurSchema.index({ matricule: 1 }, { unique: true, sparse: true });
 
-async function getNextSequenceValue(role) {
-    const counter = await mongoose.connection.db.collection('counters').findOneAndUpdate(
-        { _id: `matricule_${role}` },
-        { $inc: { seq: 1 } },
-        { upsert: true, returnDocument: 'after' }
-    );
-
-    console.log('Counter result:', counter);
-
-    return counter?.seq ?? 1;
-}
-
-UtilisateurSchema.pre('save', async function (next) {
-    const Role = mongoose.model('Role');
+UtilisateurSchema.pre('save', async function(next) {
     try {
-        const role = await Role.findById(this.idRole);
-        const lowercaseLibelle = role.libelle.toLowerCase(); 
-
-        if (lowercaseLibelle === 'mecanicien' || lowercaseLibelle === 'mécanicien' || lowercaseLibelle === 'manager' || lowercaseLibelle === 'client') {
-            if (!this.matricule) {
-                let prefix;
-                if (lowercaseLibelle === 'mecanicien' || lowercaseLibelle === 'mécanicien') {
-                    prefix = 'MEC';
-                } else if (lowercaseLibelle === 'client') {
-                    prefix = 'CLI'
-                } else {
-                    prefix = 'MNG';
-                }
-
-                const sequence = await getNextSequenceValue(role.libelle);
-                this.matricule = `${prefix}${String(sequence).padStart(3, '0')}`;
+        if (this.isNew && !this.matricule) {
+            // Wait for role to be populated if needed
+            await this.populate('idRole');
+            
+            if (!this.idRole) {
+                throw new Error('Role is required to generate matricule');
             }
+            
+            const roleLibelle = this.idRole.libelle || 'USR';
+            const count = await this.constructor.countDocuments();
+            const prefix = roleLibelle.substring(0, 3).toUpperCase();
+            this.matricule = `${prefix}${(count + 1).toString().padStart(4, '0')}`;
         }
         next();
     } catch (error) {
-        console.error('Error generating matricule:', error);
-        return next(error);
+        next(error);
     }
 });
 

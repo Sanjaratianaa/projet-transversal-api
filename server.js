@@ -11,6 +11,8 @@ const corsOptions = {
   origin: [
     "https://m1garagefrontend-dkaw--4200--33edf5bb.local-credentialless.webcontainer.io",
     "http://localhost:4200", // Add others if needed
+    "http://localhost:8100",
+    "http://localhost:8080",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
