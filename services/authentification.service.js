@@ -76,8 +76,7 @@ const AuthenticationService = {
                 numeroTelephone,
                 email,
                 motDePasse,
-                idRole,
-                dateEmbauche
+                idRole
             } = req.body;
 
             const personneReq = { body: {
@@ -134,7 +133,6 @@ const AuthenticationService = {
                 personne._id,
                 motDePasse,
                 roleId,
-                dateEmbauche,
                 etat
             );
 

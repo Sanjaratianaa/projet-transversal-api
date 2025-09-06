@@ -23,9 +23,6 @@ const UtilisateurSchema = new mongoose.Schema({
         ref: 'Role', 
         required: true 
     },
-    dateEmbauche: { 
-        type: Date 
-    },
     etat: { 
         type: String, 
         default: 'Active',

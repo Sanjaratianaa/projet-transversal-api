@@ -2,7 +2,7 @@ const Utilisateur = require('../../models/utilisateur/Utilisateur');
 const Role = require('../../models/utilisateur/Role');
 const bcrypt = require('bcrypt');
 
-exports.createUserWithParams = async (personne, motDePasse, idRole, dateEmbauche, etat, res) => {
+exports.createUserWithParams = async (personne, motDePasse, idRole, etat, res) => {
     try {
         const hashedPassword = await bcrypt.hash(motDePasse, 10);
 
@@ -10,7 +10,6 @@ exports.createUserWithParams = async (personne, motDePasse, idRole, dateEmbauche
             personne: personne,
             motDePasse: hashedPassword,
             idRole: idRole,
-            dateEmbauche: dateEmbauche,
             etat: etat,
         });
 
@@ -24,9 +23,9 @@ exports.createUserWithParams = async (personne, motDePasse, idRole, dateEmbauche
 
 exports.createUser = async (req, res) => {
     try {
-        const {personne, motDePasse, idRole, dateEmbauche, etat} = req.body;
+        const {personne, motDePasse, idRole, etat} = req.body;
 
-        const response = await this.createUserWithParams(personne, motDePasse, idRole, dateEmbauche, etat);
+        const response = await this.createUserWithParams(personne, motDePasse, idRole, etat);
         if (response.success) {
             res.status(201).json({
                 message: response.message,
