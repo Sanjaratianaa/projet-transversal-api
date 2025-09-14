@@ -1,0 +1,5 @@
+- cree le database mesfactures dans postgresql
+- run "npx prisma migrate dev --name init from this project
+- "npx prisma generate" genere le client prisma 
+
+lancer le projet "npm run dev"
