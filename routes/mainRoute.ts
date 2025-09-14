@@ -1,6 +1,7 @@
 
 import express from "express";
 import authenticationRoutes from "./utilisateur/authentificationRoutes";
+import categorieRoutes from "./categorie/categorieRoute";
 import jwt from "jsonwebtoken";
 
 declare global {
@@ -32,7 +33,9 @@ const authenticateToken = (req: express.Request, res: express.Response, next: ex
     });
 };
 
+
 router.use("/auth", authenticationRoutes);
+router.use("/categorie", categorieRoutes);
 
 router.use((req, res, next) => {
     if (
