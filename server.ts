@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mainRoutes from './routes/mainRoute';
+import syncRoutes from './routes/syncRoutes';
 
 dotenv.config();
 
@@ -25,5 +26,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api", mainRoutes);
+app.use("/api", syncRoutes);
 
 app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
