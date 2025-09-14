@@ -4,6 +4,7 @@
   "description": "API for invoice management system",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && npx prisma generate && npx prisma migrate deploy",
     "start": "ts-node server.ts",
     "dev": "ts-node-dev --respawn --transpile-only server.ts"
   },
