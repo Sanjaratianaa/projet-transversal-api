@@ -34,6 +34,7 @@ model Utilisateur {
   sauvegardes          Sauvegarde[]
   userBadges           UserBadge[]
   budgets              Budget[]
+  simulations_pret  SimulationPret[]
 }
 
 model Role {
@@ -230,4 +231,70 @@ model Fichier {
   facture    Facture @relation(fields: [factureId], references: [id])
   cheminFichier String?
   typeMime   String?   @db.VarChar(50)
+}
+
+model SimulationPret {
+  id        Int      @id @default(autoincrement())
+  id_user   Int
+  utilisateur Utilisateur @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  
+  // Données de base de la simulation
+  nom_simulation    String?   @db.VarChar(100)
+  salaire_net       Decimal   @db.Decimal(12,2)
+  duree_salaire     Int       // en mois
+  taux_salaire      Decimal   @db.Decimal(5,2)
+  capacite_emprunt  Decimal   @db.Decimal(12,2)
+  duree_emprunt     Int       // en mois
+  taux_emprunt      Decimal   @db.Decimal(5,2)
+  
+  // Résultats calculés - Salaire
+  quotite_cessible        Decimal  @db.Decimal(12,2)
+  montant_max_salaire     Decimal  @db.Decimal(12,2)
+  net_cav_salaire         Decimal  @db.Decimal(12,2)
+  frais_ht_salaire        Decimal  @db.Decimal(12,2)
+  taxe_salaire            Decimal  @db.Decimal(12,2)
+  frais_ttc_salaire       Decimal  @db.Decimal(12,2)
+  fond_emprunteur_salaire Decimal  @db.Decimal(12,2)
+  
+  // Résultats calculés - Emprunt
+  montant_max_emprunt     Decimal  @db.Decimal(12,2)
+  net_cav_emprunt         Decimal  @db.Decimal(12,2)
+  frais_ht_emprunt        Decimal  @db.Decimal(12,2)
+  taxes_emprunt           Decimal  @db.Decimal(12,2)
+  frais_ttc_emprunt       Decimal  @db.Decimal(12,2)
+  fond_solidarite_emprunt Decimal  @db.Decimal(12,2)
+  
+  // Tableau final
+  table_emprunt        Decimal  @db.Decimal(12,2)
+  table_duree          Int
+  table_taux           Decimal  @db.Decimal(5,2)
+  table_echeance       Decimal  @db.Decimal(12,2)
+  table_taux_fd_ht     Decimal  @db.Decimal(5,2)
+  table_fd_ht          Decimal  @db.Decimal(12,2)
+  table_fd_ttc         Decimal  @db.Decimal(12,2)
+  table_fse            Decimal  @db.Decimal(12,2)
+  table_net_cav        Decimal  @db.Decimal(12,2)
+  table_total_interet  Decimal  @db.Decimal(12,2)
+  table_total_ci       Decimal  @db.Decimal(12,2)
+  
+  date_creation        DateTime @default(now())
+  date_modification    DateTime @updatedAt
+  statut               String?  @default("brouillon") @db.VarChar(50)
+  
+  @@map("simulations_pret")
+}
+
+model EcheancierPret {
+  id                 Int      @id @default(autoincrement())
+  id_simulation      Int
+  simulation         SimulationPret @relation(fields: [id_simulation], references: [id], onDelete: Cascade)
+  
+  numero_echeance    Int
+  date_echeance      DateTime
+  montant_echeance   Decimal  @db.Decimal(12,2)
+  capital            Decimal  @db.Decimal(12,2)
+  interet            Decimal  @db.Decimal(12,2)
+  capital_restant    Decimal  @db.Decimal(12,2)
+  
+  @@map("echeanciers_pret")
 }
