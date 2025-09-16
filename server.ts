@@ -16,6 +16,7 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:8100",
     "http://localhost:8080",
+    "capacitor://localhost",
   ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],

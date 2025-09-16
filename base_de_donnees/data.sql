@@ -5,7 +5,7 @@ INSERT INTO "Role" (libelle, etat) VALUES
 ('Utilisateur', 'Actif'),
 ('Comptable', 'Actif');
 
-INSERT INTO "Utilisateur" (nom, prenoms, email, motDePasse, telephone, langue, statut)
+INSERT INTO "Utilisateur" (nom, prenoms, email, "motDePasse", telephone, langue, statut)
 VALUES
 ('Rakoto', 'Layah', 'layah@gmail.com', '$2b$10$fMCi3IqISY/HH5DC9StsiuMnUFlOKVcRDzVxebpP01aghit7WgSuO', '0341234567', 'fr', 'Active'),
 ('Rabe', 'Hery', 'hery@gmail.com', '$2b$10$abcdefgHIJKLMNOPQRSTUVWX', '0339876543', 'fr', 'Active'),
