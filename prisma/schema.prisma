@@ -34,6 +34,7 @@ model Utilisateur {
   sauvegardes          Sauvegarde[]
   userBadges           UserBadge[]
   budgets              Budget[]
+  simulations_pret  SimulationPret[]
 }
 
 model Role {

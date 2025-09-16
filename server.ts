@@ -10,14 +10,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  // origin: [
-  //   "https://m1garagefrontend-dkaw--4200--33edf5bb.local-credentialless.webcontainer.io",
-  //   "http://localhost:4200",
-  //   "http://localhost:3000",
-  //   "http://localhost:8100",
-  //   "http://localhost:8080",
-  // ],
-  origin: true,
+  origin: [
+    "https://m1garagefrontend-dkaw--4200--33edf5bb.local-credentialless.webcontainer.io",
+    "http://localhost:4200",
+    "http://localhost:3000",
+    "http://localhost:8100",
+    "http://localhost:8080",
+    "capacitor://localhost",
+  ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

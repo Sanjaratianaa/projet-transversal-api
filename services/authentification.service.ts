@@ -12,6 +12,7 @@ export const AuthenticationService = {
         where: { email },
         include: { roles: { include: { role: true } } }
       });
+      console.log(user);
       if (!user || user.statut !== 'Active') {
         return {
           success: false,
