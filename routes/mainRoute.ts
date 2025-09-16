@@ -39,7 +39,7 @@ const authenticateToken = (req: express.Request, res: express.Response, next: ex
 
 router.use("/auth", authenticationRoutes);
 router.use("/categorie", categorieRoutes);
-router.use("/facture", factureRoutes);
+router.use("/factures", factureRoutes);
 router.use("/uploads", express.static("uploads"));
 router.use("/factures/fichiers", fichierRoutes);
 router.use("/objectifs", objectifsRoutes);

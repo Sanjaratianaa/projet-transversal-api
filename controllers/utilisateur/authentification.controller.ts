@@ -3,7 +3,6 @@ import { AuthenticationService } from '../../services/authentification.service';
 
 export const AuthenticationController = {
   login: async (req: Request, res: Response) => {
-    console.log(req.body);
     const { email, password } = req.body;
     const result = await AuthenticationService.authenticateUser(email, password);
     if (result.success) {
@@ -14,7 +13,6 @@ export const AuthenticationController = {
   },
 
   register: async (req: Request, res: Response) => {
-    console.log(req.body);
     const result = await AuthenticationService.register(req.body);
     if (result.success) {
       res.status(201).json({ message: result.message, data: (result as any).data });

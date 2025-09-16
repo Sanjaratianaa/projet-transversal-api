@@ -3,8 +3,6 @@ import { createFichier, deleteFichier, getFichiersByFacture } from '../../servic
 
 export const uploadFichiersController = async (req: Request, res: Response) => {
   try {
-    console.log("coucouuu");
-    console.log(req);
     const factureId = parseInt(req.body.factureId);
     if (!factureId || !req.file) {
       return res.status(400).json({ error: 'Facture ID et fichier requis' });
