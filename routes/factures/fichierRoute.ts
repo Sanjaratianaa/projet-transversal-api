@@ -1,19 +1,20 @@
 import { Router } from 'express';
-import multer from 'multer';
+import multer, { StorageEngine } from "multer";
+import { Request } from "express";
 import {
   uploadFichiersController,
   getFichiersByFactureController,
   deleteFichierController
 } from '../../controllers/factures/fichier.controller';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // dossier pour stocker
+const storage: StorageEngine = multer.diskStorage({
+  destination: (req: Request, file: Express.Multer.File, cb) => {
+    cb(null, "uploads/");
   },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + '-' + file.originalname);
-  }
+  filename: (req: Request, file: Express.Multer.File, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
 });
 
 const upload = multer({ storage });
