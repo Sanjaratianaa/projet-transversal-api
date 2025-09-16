@@ -3,6 +3,7 @@ import { AuthenticationService } from '../../services/authentification.service';
 
 export const AuthenticationController = {
   login: async (req: Request, res: Response) => {
+    console.log(req.body);
     const { email, password } = req.body;
     const result = await AuthenticationService.authenticateUser(email, password);
     if (result.success) {

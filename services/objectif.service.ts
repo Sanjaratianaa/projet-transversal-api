@@ -19,3 +19,14 @@ export async function incrementMontantObjectif(id: number, montant: number) {
     }
   });
 }
+
+export async function createObjectif(data: {
+  utilisateurId: number;
+  libelle: string;
+  montantTotal: number;
+  dateDebut?: Date;
+  dateFin?: Date;
+  statut?: string;
+}) {
+  return prisma.objectif.create({ data });
+}

@@ -5,6 +5,21 @@ INSERT INTO "Role" (libelle, etat) VALUES
 ('Utilisateur', 'Actif'),
 ('Comptable', 'Actif');
 
+INSERT INTO "Utilisateur" (nom, prenoms, email, motDePasse, telephone, langue, statut)
+VALUES
+('Rakoto', 'Layah', 'layah@gmail.com', '$2b$10$fMCi3IqISY/HH5DC9StsiuMnUFlOKVcRDzVxebpP01aghit7WgSuO', '0341234567', 'fr', 'Active'),
+('Rabe', 'Hery', 'hery@gmail.com', '$2b$10$abcdefgHIJKLMNOPQRSTUVWX', '0339876543', 'fr', 'Active'),
+('Andrian', 'Mina', 'mina@gmail.com', '$2b$10$abcdefgHIJKLMNOPQRSTUVWX', '0325556667', 'fr', 'Active'),
+('Rasoa', 'Tiana', 'tiana@gmail.com', '$2b$10$abcdefgHIJKLMNOPQRSTUVWX', '0311122334', 'fr', 'Inactive'),
+('Rakotomalala', 'Faly', 'faly@gmail.com', '$2b$10$abcdefgHIJKLMNOPQRSTUVWX', '0329988776', 'fr', 'Active');
+
+INSERT INTO "UtilisateurRole" (utilisateurId, roleId) VALUES
+(1, 2),  -- Layah est un Utilisateur
+(2, 2),  -- Hery est un Utilisateur
+(3, 2),  -- Mina est un Utilisateur
+(4, 2),  -- Tiana est un Utilisateur
+(5, 1);  -- Faly est un Admin
+
 -- Insertion des catégories de revenu
 -- Insertion des catégories de revenus
 INSERT INTO "Categorie" (libelle, type) VALUES
@@ -61,3 +76,10 @@ INSERT INTO "Categorie" (libelle, type) VALUES
 ('Pharmacie', 'depense'),
 ('Courses', 'depense'),
 ('Depenses exceptionnelles', 'depense');
+
+INSERT INTO "Objectif" ("utilisateurId", "libelle", "montantTotal", "montantActuel", "dateDebut", "dateFin", "statut")
+VALUES
+(1, 'Voyage à Madagascar', 1500000.00, 500000.00, '2025-09-01', '2025-09-30', 'En cours'),
+(1, 'Nouvel ordinateur', 2500000.00, 1250000.00, '2025-09-05', '2025-10-05', 'En cours'),
+(1, 'Formation React', 500000.00, 200000.00, '2025-09-10', '2025-09-20', 'En cours'),
+(1, 'Réparations maison', 800000.00, 0.00, '2025-09-12', '2025-09-30', 'En attente');
