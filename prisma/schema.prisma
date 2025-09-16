@@ -223,6 +223,7 @@ model Budget {
   categorie   Categorie? @relation(fields: [categorieId], references: [id])
   montantLimite Decimal? @db.Decimal(12,2)
   periode    String?   @db.VarChar(20)
+  updated_at    DateTime @updatedAt
 }
 
 model Fichier {

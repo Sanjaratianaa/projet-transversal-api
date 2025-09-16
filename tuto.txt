@@ -3,3 +3,10 @@
 - "npx prisma generate" genere le client prisma 
 
 lancer le projet "npm run dev"
+
+
+creer une nouvelle colonne
+- ajouter dans "schema.prisma"
+- run "npx prisma migrate dev --name add_updated_at_to_budget"
+- run "npx prisma migrate deploy"
+- run "npx prisma generate"
